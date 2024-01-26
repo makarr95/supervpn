@@ -142,7 +142,7 @@ function installWireGuard() {
 			pip install -r "$(pwd)/supervpn-main/requirements.txt"
 			echo "{
 \"admin_tg_id\": ${ADMIN_ID_BOT},
-\"one_month_cost\": 450,
+\"one_month_cost\": 350,
 \"trial_period\": 86400,
 \"UTC_time\": 3,
 \"tg_token\": \"${API_TOKEN_BOT}\",
@@ -150,7 +150,7 @@ function installWireGuard() {
 }" >"$(pwd)/supervpn-main/config.json"
 			chmod 744 -R $(pwd)/supervpn-main/
 			echo "[Unit]
-Description=Admin Bot for Wireguard
+Description=Admin Bot RRVPN
 After=multi-user.target
 
 [Service]
@@ -162,9 +162,9 @@ ExecStart=/usr/bin/python3 $(pwd)/supervpn-main/main.py
 User=root
 
 [Install]
-WantedBy=multi-user.target">"/etc/systemd/system/AdminBotXAKEP.service"
+WantedBy=multi-user.target">"/etc/systemd/system/bot.service"
 			systemctl daemon-reload
-			sudo systemctl enable AdminBotXAKEP.service
+			sudo systemctl enable bot.service
 			clear
 			echo "Installed Bot"
 		fi
@@ -256,7 +256,7 @@ net.ipv6.conf.all.forwarding = 1" >/etc/sysctl.d/wg.conf
 	clear
 	echo "Wireguard Installed!!!"
 	if [[ ${BOT_AUTO_INSTALL} == '1' ]]; then
-		sudo systemctl start AdminBotXAKEP.service
+		sudo systemctl start bot.service
 	fi
 	# WireGuard might not work if we updated the kernel. Tell the user to reboot
 	if [[ ${WG_RUNNING} -ne 0 ]]; then
